@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server'
 
-const cache: { data: unknown; time: number } | null = null
-let contentcache = cache
+let contentcache: { data: unknown; time: number } | null = null
 const CACHE_TTL = 60 * 60 * 1000
 
 export async function GET(request: Request) {
