@@ -51,7 +51,7 @@ export async function GET(
 
       const results = await Promise.all(promises)
       for (const res of results) {
-        if (res?.data?.history?.length > 0) {
+        if (res && res.data?.history?.length > 0) {
           region = res.region
           regioncache.set(regionkey, { data: region, time: Date.now() })
           break
