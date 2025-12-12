@@ -26,6 +26,7 @@ interface StatsData {
   kd?: string
   acs?: number
   adr?: number
+  hs?: number
   error?: string
 }
 
@@ -155,10 +156,11 @@ export default function Search() {
                   <span>{stats.matches} matches</span>
                 </div>
 
-                <div className="grid grid-cols-3 border-t border-[#d4d2c8] py-5">
+                <div className="grid grid-cols-4 border-t border-[#d4d2c8] py-5">
                   <Stat value={stats.kd} label="kd" large />
                   <Stat value={stats.acs} label="acs" large />
                   <Stat value={stats.adr} label="adr" large />
+                  <Stat value={stats.hs !== undefined ? `${stats.hs}%` : '-'} label="hs" large />
                 </div>
 
                 <div className="grid grid-cols-3 border-t border-[#d4d2c8] py-5">

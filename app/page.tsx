@@ -48,7 +48,7 @@ export default function Home() {
               <div>act stats</div>
               <div>for bots</div>
             </div>
-          </div>
+        </div>
         </section>
       </main>
     </div>

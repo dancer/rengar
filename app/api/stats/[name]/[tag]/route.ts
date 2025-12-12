@@ -135,6 +135,7 @@ export async function GET(
     }
     
     let kills = 0, deaths = 0, assists = 0, score = 0, rounds = 0
+    let headshots = 0, bodyshots = 0, legshots = 0
     let matches = 0
     let currentseason: string | null = null
     
@@ -163,8 +164,24 @@ export async function GET(
         score += player.stats.score || 0
         rounds += player.stats.roundsPlayed || 0
         matches++
+        
+        if (match.roundResults) {
+          for (const round of match.roundResults) {
+            const pstats = round.playerStats?.find((p: { puuid: string }) => p.puuid === puuid)
+            if (pstats?.damage) {
+              for (const d of pstats.damage) {
+                headshots += d.headshots || 0
+                bodyshots += d.bodyshots || 0
+                legshots += d.legshots || 0
+              }
+            }
+          }
+        }
       }
     }
+    
+    const totalshots = headshots + bodyshots + legshots
+    const hs = totalshots > 0 ? Math.round((headshots / totalshots) * 100) : 0
     
     const result = {
       name: account.gameName,
@@ -178,6 +195,7 @@ export async function GET(
       kd: deaths > 0 ? (kills / deaths).toFixed(2) : kills.toFixed(2),
       acs: rounds > 0 ? Math.round(score / rounds) : 0,
       adr: rounds > 0 ? Math.round((score * 0.7) / rounds) : 0,
+      hs,
     }
     
     cache.set(key, { data: result, time: Date.now() })
