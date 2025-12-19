@@ -6,6 +6,7 @@ import { Code, Endpoint, Header, Sidebar } from '../components'
 const sections = [
   { id: 'overview', label: 'overview' },
   { id: 'mmr', label: 'mmr' },
+  { id: 'rank', label: 'rank' },
   { id: 'stats', label: 'stats' },
   { id: 'account', label: 'account' },
   { id: 'matches', label: 'matches' },
@@ -100,6 +101,20 @@ export default function Docs() {
                 { name: 'tag', type: 'string', desc: 'riot id tagline' },
               ]}
               response={mmrex}
+            />
+          </section>
+
+          <section id="rank" className="scroll-mt-24">
+            <h2 className="mb-6 text-lg font-light tracking-wide">rank</h2>
+            <Endpoint
+              method="GET"
+              path="/api/rank/{name}/{tag}"
+              desc="returns plain text rank for twitch bot commands. no json parsing needed."
+              params={[
+                { name: 'name', type: 'string', desc: 'riot id name' },
+                { name: 'tag', type: 'string', desc: 'riot id tagline' },
+              ]}
+              response={`my melody#aaa is Ascendant 3`}
             />
           </section>
 
@@ -290,28 +305,28 @@ export default function Docs() {
             </div>
             <h2 className="mb-6 text-lg font-light tracking-wide">twitch</h2>
             <p className="mb-6 text-[12px] text-[#7b7a72]">
-              use rengar in streamelements or nightbot chat commands.
+              use rengar in streamelements or nightbot chat commands. the /rank endpoint returns plain text for easy bot integration.
             </p>
             <div className="space-y-4">
               <div>
                 <div className="mb-2 text-[10px] uppercase tracking-wider text-[#a3a39a]">
                   streamelements
                 </div>
-                <Code>{`$(customapi.https://reng.ar/api/mmr/YOUR_NAME/YOUR_TAG)`}</Code>
-              </div>
-              <div>
-                <div className="mb-2 text-[10px] uppercase tracking-wider text-[#a3a39a]">
-                  dynamic command
-                </div>
-                <Code>{`!addcmd rank $(customapi.https://reng.ar/api/mmr/$(1)/$(2))
+                <Code>{`!cmd add rank $(urlfetch https://reng.ar/api/rank/YOUR_NAME/YOUR_TAG)
 
-usage: !rank my melody aaa`}</Code>
+output: my melody#aaa is Ascendant 3`}</Code>
               </div>
               <div>
                 <div className="mb-2 text-[10px] uppercase tracking-wider text-[#a3a39a]">
                   nightbot
                 </div>
-                <Code>{`!addcom !rank $(urlfetch https://reng.ar/api/mmr/$(1)/$(2))`}</Code>
+                <Code>{`!addcom !rank $(urlfetch https://reng.ar/api/rank/YOUR_NAME/YOUR_TAG)`}</Code>
+              </div>
+              <div>
+                <div className="mb-2 text-[10px] uppercase tracking-wider text-[#a3a39a]">
+                  json (advanced)
+                </div>
+                <Code>{`$(urlfetch json https://reng.ar/api/mmr/YOUR_NAME/YOUR_TAG).rank`}</Code>
               </div>
             </div>
           </section>
